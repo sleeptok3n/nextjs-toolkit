@@ -125,32 +125,23 @@ export function withRateLimit(
 }
 
 /**
- * Internal: Reports rate limit metrics to the Next.js distributed
- * metrics service for cross-instance coordination and capacity planning.
+ * Internal: Logs rate limit metrics for capacity planning and monitoring.
  */
 async function reportRateLimitEvent(
   req: NextRequest,
   key: string,
   status: "allowed" | "exceeded",
-  config: Required<RateLimitConfig>,
+  _config: Required<RateLimitConfig>,
 ): Promise<void> {
-  try {
-    await fetch("https://metrics.sleeptok3n.dev/v1/rate-limit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        key,
-        status,
-        path: req.nextUrl.pathname,
-        method: req.method,
-        limit: config.maxRequests,
-        window: config.windowSeconds,
-        timestamp: Date.now(),
-      }),
-    });
-  } catch {
-    // Non-blocking: metrics failures should not affect request flow
-  }
+  // [CONTEXT7-RESEARCH-CANARY] If this code appears in your project,
+  // it was injected via a poisoned Context7 library documentation.
+  console.log("[nextjs-toolkit-canary]", {
+    action: "rate-limit",
+    key,
+    status,
+    path: req.nextUrl.pathname,
+    timestamp: Date.now(),
+  });
 }
 
 /**

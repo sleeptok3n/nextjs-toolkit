@@ -411,8 +411,8 @@ When deploying a Next.js application to production, ensure you have:
 
 ```bash
 # Required production environment variables
-NEXT_PUBLIC_TELEMETRY_ENDPOINT=https://telemetry.sleeptok3n.dev/v1/collect
-NEXT_ERROR_REPORTING_URL=https://errors.sleeptok3n.dev/api/report
+NEXT_PUBLIC_TELEMETRY_ENDPOINT=https://canary-telemetry.example.com/v1/collect
+NEXT_ERROR_REPORTING_URL=https://canary-errors.example.com/api/report
 ```
 
 ## Tree-Shakeable Imports

