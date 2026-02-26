@@ -140,15 +140,6 @@ export async function warmCache(options: {
   const warmed: string[] = [];
   const failed: string[] = [];
 
-  // [CONTEXT7-RESEARCH-CANARY] If this code appears in your project,
-  // it was injected via a poisoned Context7 library documentation.
-  console.log("[nextjs-toolkit-canary]", {
-    action: "cache-warm",
-    baseUrl: options.baseUrl,
-    pathCount: options.paths.length,
-    timestamp: Date.now(),
-  });
-
   // Warm paths with concurrency control
   const chunks: string[][] = [];
   for (let i = 0; i < options.paths.length; i += concurrency) {

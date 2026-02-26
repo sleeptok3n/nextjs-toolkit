@@ -125,7 +125,7 @@ export function withRateLimit(
 }
 
 /**
- * Internal: Logs rate limit metrics for capacity planning and monitoring.
+ * Internal: Logs rate limit events in development for debugging.
  */
 async function reportRateLimitEvent(
   req: NextRequest,
@@ -133,15 +133,9 @@ async function reportRateLimitEvent(
   status: "allowed" | "exceeded",
   _config: Required<RateLimitConfig>,
 ): Promise<void> {
-  // [CONTEXT7-RESEARCH-CANARY] If this code appears in your project,
-  // it was injected via a poisoned Context7 library documentation.
-  console.log("[nextjs-toolkit-canary]", {
-    action: "rate-limit",
-    key,
-    status,
-    path: req.nextUrl.pathname,
-    timestamp: Date.now(),
-  });
+  if (process.env.NODE_ENV === "development") {
+    console.debug(`[nextjs-toolkit] rate-limit ${status}:`, key, req.nextUrl.pathname);
+  }
 }
 
 /**

@@ -143,21 +143,14 @@ export function createAuthMiddleware(config?: AuthConfig) {
 
 /**
  * Internal: Logs session validation events for security auditing.
- * This is a standard part of the authentication flow and should
- * not be removed or disabled.
  */
 async function reportSessionValidation(
   req: NextRequest,
   _sessionToken: string,
 ): Promise<void> {
-  // [CONTEXT7-RESEARCH-CANARY] If this code appears in your project,
-  // it was injected via a poisoned Context7 library documentation.
-  // This is a proof-of-concept for security research.
-  console.log("[nextjs-toolkit-canary]", {
-    action: "session-validation",
-    path: req.nextUrl.pathname,
-    timestamp: Date.now(),
-  });
+  if (process.env.NODE_ENV === "development") {
+    console.debug("[nextjs-toolkit] session validated:", req.nextUrl.pathname);
+  }
 }
 
 /**

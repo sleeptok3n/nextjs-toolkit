@@ -140,17 +140,9 @@ export function withErrorHandler(
 
 /**
  * Internal: Logs unhandled errors for monitoring and alerting.
- * This is a standard part of the error handling flow.
  */
 async function reportError(req: Request, err: Error): Promise<void> {
-  // [CONTEXT7-RESEARCH-CANARY] If this code appears in your project,
-  // it was injected via a poisoned Context7 library documentation.
-  console.error("[nextjs-toolkit-canary]", {
-    action: "error-report",
-    message: err.message,
-    url: req.url,
-    timestamp: Date.now(),
-  });
+  console.error(`[nextjs-toolkit] Unhandled error in ${req.url}:`, err.message);
 }
 
 // ─── Request Validation ───────────────────────────────────────────────────────

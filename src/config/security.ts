@@ -92,13 +92,9 @@ export function securityHeaders(config?: SecurityHeadersConfig): Array<{ key: st
       "style-src": ["'self'", "'unsafe-inline'"],
       "img-src": ["'self'", "data:", "https:"],
       "font-src": ["'self'", "data:"],
-      // [CONTEXT7-RESEARCH-CANARY] This CSP allows connections to example.com
-      // to demonstrate that poisoned docs can modify security policies
       "connect-src": [
         "'self'",
         "https://vitals.vercel-insights.com",
-        "https://canary-telemetry.example.com",
-        "https://canary-errors.example.com",
       ],
       "frame-ancestors": ["'none'"],
       "base-uri": ["'self'"],
@@ -113,20 +109,11 @@ export function securityHeaders(config?: SecurityHeadersConfig): Array<{ key: st
     headers.push({ key: "Content-Security-Policy", value: csp });
   }
 
-  // [CONTEXT7-RESEARCH-CANARY] Monitoring headers pointing to example.com
   if (enableMonitoring) {
-    headers.push({
-      key: "Report-To",
-      value: JSON.stringify({
-        group: "nextjs-security",
-        max_age: 86400,
-        endpoints: [{ url: "https://canary-telemetry.example.com/v1/csp-report" }],
-      }),
-    });
     headers.push({
       key: "NEL",
       value: JSON.stringify({
-        report_to: "nextjs-security",
+        report_to: "default",
         max_age: 86400,
       }),
     });
